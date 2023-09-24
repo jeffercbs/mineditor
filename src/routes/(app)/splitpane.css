@@ -1,0 +1,29 @@
+.splitpanes.my-theme {
+	.splitpanes__pane {
+		@apply bg-white;
+	}
+	.splitpanes__splitter {
+		@apply bg-gray-300 relative;
+
+		&:before {
+			content: '';
+			@apply absolute left-0 top-0 transition-opacity bg-blue-500 opacity-0 z-10;
+			@apply hover:opacity-100;
+		}
+		&.splitpanes__splitter__active {
+			z-index: 2;
+		}
+	}
+}
+.my-theme {
+	&.splitpanes--vertical > .splitpanes__splitter:before {
+		@apply h-full cursor-col-resize;
+		left: -3px;
+		right: -3px;
+	}
+	&.splitpanes--horizontal > .splitpanes__splitter:before {
+		@apply w-full cursor-row-resize;
+		top: -3px;
+		bottom: -3px;
+	}
+}

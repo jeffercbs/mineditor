@@ -1,33 +1,63 @@
 <script lang="ts">
-	export let options: string[] = [];
+	import { createEventDispatcher } from 'svelte';
+	import { Selector } from '../../icons';
+	import SelectItem from './SelectItem.svelte';
+
+	const dispatch = createEventDispatcher();
+
+	export let name: string = '';
+	export let label: string = '';
 	export let value: string = '';
-	export let key: string = '';
+	export let desc: string = '';
+	export let options: string[] = [];
+	export let isOpen = false;
+
+	function handledSelect(e: any) {
+		value = e.detail.value;
+		isOpen = false;
+
+		dispatch('update', {
+			label,
+			value
+		});
+	}
 </script>
 
-<div class="group flex flex-col select">
-	<label for={key}>{key}</label>
-	<select name={key} id={key} bind:value aria-label={key}>
-		{#each options as option}
-			<option value={option}> {option}</option>
-		{/each}
-	</select>
+<div class="relative w-full" aria-label={label}>
+	<div class="flex flex-col text-base">
+		<strong class="capitalize">{name}</strong>
+		<span class="capitalize opacity-70">{desc}</span>
+	</div>
+
+	<button
+		aria-expanded={isOpen}
+		aria-label={label}
+		aria-haspopup="listbox"
+		class="select"
+		on:click={() => (isOpen = !isOpen)}
+		{value}
+	>
+		<span>{value}</span>
+		<span class="opacity-70"><Selector /></span>
+	</button>
+
+	{#if isOpen}
+		<ul class="options">
+			{#each options as option}
+				<SelectItem {value} {option} on:select={handledSelect} />
+			{/each}
+		</ul>
+	{/if}
 </div>
 
 <style>
 	.select {
-		@apply border;
-		@apply rounded-md px-4 pt-1 pb-2 my-3 relative;
+		@apply w-full flex justify-between bg-white border border-jet cursor-default shadow-lg;
+		@apply rounded-lg px-4 py-2 my-3 relative text-black text-lg;
 	}
-	.select label {
-		@apply text-sm capitalize mb-1 opacity-80 w-full;
-	}
-	select {
-		@apply bg-transparent outline-none border-none text-lg;
-	}
-	select::-ms-expand {
-		@apply hidden;
-	}
-	select option {
-		@apply bg-[#27272a] px-4;
+
+	.options {
+		@apply w-full absolute z-10 bg-white text-black max-h-48 rounded-lg shadow-lg;
+		@apply snap-y overflow-y-auto;
 	}
 </style>

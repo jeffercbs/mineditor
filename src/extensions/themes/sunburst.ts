@@ -1,4 +1,6 @@
-const sunburst = {
+import type { editor } from "monaco-editor";
+
+const sunburst: editor.IStandaloneThemeData = {
 	base: 'vs-dark',
 	inherit: true,
 	rules: [

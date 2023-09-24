@@ -1,4 +1,6 @@
-const dracula = {
+import type { editor } from "monaco-editor";
+
+const dracula: editor.IStandaloneThemeData  = {
 	base: 'vs-dark',
 	inherit: true,
 	rules: [

@@ -1,4 +1,6 @@
-const githubDark = {
+import type { editor } from "monaco-editor";
+
+const github: editor.IStandaloneThemeData = {
 	base: 'vs-dark',
 	inherit: true,
 	rules: [
@@ -60,4 +62,4 @@ const githubDark = {
 	}
 };
 
-export default githubDark;
+export default github;

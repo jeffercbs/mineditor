@@ -1,24 +1,24 @@
 <script lang="ts">
+	import { updatePreferences } from '../stores/preferences';
 	import { Select, Input } from '../lib';
 
-	export let change: (e: any) => void;
-	export let data: any[] = [];
+	export let props: any[] = [];
+	export let p: 'editor' | 'global' = 'editor';
+
+	function updateData(e: any) {
+		let key: string = e.detail.label;
+		let value: string = e.detail.value;
+
+		updatePreferences({ key, value, p });
+	}
 </script>
 
-<div class="flex-1 w-full">
-	<form on:change|preventDefault={change} class="configurations">
-		{#each data as { component, ...res }}
-			{#if component === 'select'}
-				<Select {...res} />
-			{:else if component === 'input'}
-				<Input {...res} />
-			{/if}
-		{/each}
-	</form>
+<div class="flex flex-1 flex-col gap-4 w-full">
+	{#each props as { component, ...res }}
+		{#if component === 'select'}
+			<Select {...res} on:update={updateData} />
+		{:else if component === 'input'}
+			<Input {...res} />
+		{/if}
+	{/each}
 </div>
-
-<style>
-	.configurations {
-		@apply flex flex-1 flex-col gap-4;
-	}
-</style>

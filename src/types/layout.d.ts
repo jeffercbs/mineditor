@@ -1,5 +1,7 @@
+import type { Langs } from './code';
+
 export interface PanelsType {
-	panel: string;
+	panel: Langs | 'preview';
 	content: string;
 	view: boolean;
 }

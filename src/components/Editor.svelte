@@ -3,10 +3,11 @@
 	import * as monaco from 'monaco-editor';
 	import { onDestroy, onMount } from 'svelte';
 	import { registerAutoCompleteHTMLTag } from '../extensions/autocompleteTag';
-	import { codesandbox, dracula, githubDark, sunburst } from '../extensions/themes';
+	import { dracula, githubDark, gruvbox, sunburst } from '../extensions/themes';
+	import { useLivePreview } from '../packages/code-preview';
 	import { EditorPreferences as preferences } from '../stores/preferences';
 
-	export let lang = 'ts';
+	export let lang: any;
 	export let code = '';
 
 	let ref: HTMLDivElement;
@@ -22,23 +23,27 @@
 		editor = monaco.editor.create(ref, {
 			value: code,
 			...$preferences,
+			formatOnPaste: true,
+			formatOnType: true,
+			autoIndent: 'full',
+			detectIndentation: true,
 			minimap: {
 				enabled: $preferences.minimap
 			}
 		});
 
 		editor.onDidChangeModelContent(() => {
-			code = editor.getValue();
+			useLivePreview({ code: editor.getValue(), lang });
 		});
 
 		emmetHTML(monaco);
 		emmetCSS(monaco);
 		registerAutoCompleteHTMLTag(monaco);
 
-		monaco.editor.defineTheme('sunburst', sunburst as any);
-		monaco.editor.defineTheme('github-dark', githubDark as any);
-		monaco.editor.defineTheme('dracula', dracula as any);
-		monaco.editor.defineTheme('codesadbox', codesandbox as any);
+		monaco.editor.defineTheme('sunburst', sunburst);
+		monaco.editor.defineTheme('github', githubDark);
+		monaco.editor.defineTheme('dracula', dracula);
+		monaco.editor.defineTheme('grovbox', gruvbox);
 
 		loadEditor(code, lang);
 	});
@@ -50,12 +55,12 @@
 </script>
 
 <div class="relative w-full h-full group">
-	<button class="group-hover:opacity-100 opacity-0 closed"> x </button>
+	<img
+		src={`/${lang}.svg`}
+		width="30"
+		height="30"
+		alt={lang}
+		class="absolute right-6 bottom-4 z-10 group-hover:opacity-100 opacity-60 transition-opacity duration-300"
+	/>
 	<div bind:this={ref} class="h-full w-full" aria-label={lang} />
 </div>
-
-<style>
-	.closed {
-		@apply transition-opacity ease-in delay-100 absolute right-4 top-1 bg-black rounded-full z-50 px-3 py-1 flex justify-center items-center;
-	}
-</style>

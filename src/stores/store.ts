@@ -8,7 +8,6 @@ export function updateState(state: Writable<Global | Monaco | PanelsType>, keySt
 		state.update((oldState): Global | Monaco | PanelsType => {
 			const newState: Global | Monaco | PanelsType = { ...oldState, [key]: value };
 
-			console.log(key, value);
 			setlocalStorage(keyStorage, newState);
 			return { ...newState };
 		});

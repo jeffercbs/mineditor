@@ -2,18 +2,13 @@
 	import { writable } from 'svelte/store';
 	import { Vertical, Horizontal, Grid, Menu, Share } from '../icons';
 	import { updateSettingsGlobal, GlobalPreferences as preferences } from '../stores/preferences';
+	import { L } from '../stores/layout';
 
 	let isEdit = writable(false);
 	let nameProject = $preferences.nameProject;
 
 	function updateLayout(layout: string) {
 		updateSettingsGlobal({ key: 'layout', value: layout });
-	}
-
-	enum L {
-		vertical = 'vertical',
-		horizontal = 'horizontal',
-		grid = 'grid'
 	}
 
 	const editName = () => isEdit.set(true);

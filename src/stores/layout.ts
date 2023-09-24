@@ -1,6 +1,12 @@
 import type { PanelsType } from '$/types/layout';
 import { writable } from 'svelte/store';
 
+export const L = {
+	vertical: 'vertical',
+	horizontal: 'horizontal',
+	grid: 'grid'
+};
+
 const PANELS: PanelsType[] = [
 	{
 		panel: 'html',
@@ -16,11 +22,6 @@ const PANELS: PanelsType[] = [
 		panel: 'javascript',
 		content: 'console.log("Hello World")',
 		view: true
-	},
-	{
-		panel: 'preview',
-		content: '',
-		view: false
 	}
 ];
 

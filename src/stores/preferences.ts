@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { EDITOR_DEFAULT_SETTINGS, GLOBAL_DEFAULT_SETTINGS } from '../constants/preferences';
+import { EDITOR_DEFAULT_SETTINGS, GLOBAL_DEFAULT_SETTINGS } from '../constants';
 import type { Global, Monaco } from '../types/preferences';
 import { updateState } from './store';
 
@@ -23,6 +23,21 @@ export const updateSettingsGlobal = ({ key, value }: { key: string; value: strin
 	const updateStateGlobal = updateState(GlobalPreferences, 'global preferences');
 	return updateStateGlobal(key, ParseValuePipe(value));
 };
+
+export function updatePreferences({
+	key,
+	value,
+	p
+}: {
+	key: string;
+	value: string;
+	p: 'editor' | 'global';
+}) {
+	console.log(key, value, p);
+	if (p === 'editor') return updateSettingsEditor({ key, value });
+	else if (p === 'global') return updateSettingsGlobal({ key, value });
+	else throw new Error('Invalid preferences type');
+}
 
 function ParseValuePipe(value: string): string | number | boolean {
 	const v = value.toLowerCase();

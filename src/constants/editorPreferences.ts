@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Monaco, Global } from '../types/preferences';
+import type { Monaco } from '../types/preferences';
 
 export const EDITOR_DEFAULT_SETTINGS: Monaco = {
 	theme: 'vs-dark',
@@ -14,73 +13,62 @@ export const EDITOR_DEFAULT_SETTINGS: Monaco = {
 	folding: false
 };
 
-export const GLOBAL_DEFAULT_SETTINGS = {
-	nameProject: 'Project',
-	fullscreen: false,
-	accent: 'green',
-	layout: 'vertical'
-};
-
-export function globalOptions(opt: Global): any {
-	const { fullscreen, accent } = opt;
-	const options = [
-		{
-			component: 'radius',
-			key: 'accent',
-			options: ['green', 'blue', 'red', 'yellow'],
-			value: accent
-		},
-		{
-			component: 'select',
-			key: 'fullscreen',
-			options: ['true', 'false'],
-			value: fullscreen
-		}
-	];
-	return options;
-}
-export function editorOptions(opt: Monaco): any {
+export function GetEditorOptions(opt: Monaco): any[] {
 	const { theme, fontLigatures, fontSize, lineNumbers, minimap, glyphMargin, folding } = opt;
 	const options = [
 		{
 			component: 'select',
-			key: 'theme',
-			options: ['vs-dark', 'vs-light', 'codesandbox', 'github-dark', 'dracula', 'sunburst'],
+			label: 'theme',
+			name: 'theme',
+			desc: 'Specifies the color theme used in the workbench.',
+			options: ['vs-dark', 'vs-light', 'grovbox', 'github', 'dracula', 'sunburst'],
 			value: theme
 		},
 		{
 			component: 'select',
-			key: 'fontLigatures',
+			label: 'fontLigatures',
+			name: 'font ligatures',
+			desc: 'Controls whether the ligatures is enabled.',
 			options: ['true', 'false'],
 			value: fontLigatures
 		},
 		{
 			component: 'select',
-			key: 'lineNumbers',
+			label: 'lineNumbers',
+			name: 'line numbers',
+			desc: 'Controls the display of line numbers',
 			options: ['on', 'off', 'relative', 'interval'],
 			value: lineNumbers
 		},
 		{
 			component: 'input',
 			type: 'number',
-			key: 'fontSize',
+			label: 'fontSize',
+			name: 'font size',
+			desc: 'Controls the font size in pixels.',
 			value: fontSize
 		},
 		{
 			component: 'select',
-			key: 'glyphMargin',
+			label: 'glyphMargin',
+			name: 'glyph margin',
+			desc: 'Controls whether the editor should render the vertical glyph margin',
 			options: ['true', 'false'],
 			value: glyphMargin
 		},
 		{
 			component: 'select',
-			key: 'folding',
+			label: 'folding',
+			name: 'folding',
+			desc: 'Controls whether the editor has code folding enabled.',
 			options: ['true', 'false'],
 			value: folding
 		},
 		{
 			component: 'select',
-			key: 'minimap',
+			label: 'minimap',
+			name: 'minimap',
+			desc: 'Controls whether the minimap is shown.',
 			options: ['true', 'false'],
 			value: minimap
 		}
